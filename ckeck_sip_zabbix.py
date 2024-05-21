@@ -19,12 +19,12 @@ Zabbix запускает этот скрипт как внешную прове
 state = { 'find_sip_error' : None,
           'sent_alert' : False}
 try:
-	with open("/home/vv/last_state.json") as file_load:
+	with open("/home/user/last_state.json") as file_load:
 		state = json.load(file_load)
 except FileNotFoundError:
 	pass
 	
-last_data_log = os.popen("tail -n 5 /home/vv/sip.log")
+last_data_log = os.popen("tail -n 5 /home/user/sip.log")
 
 for line in last_data_log:
 	if "Failed to send SIP message" in line:
@@ -43,9 +43,9 @@ else:
 	print("OK")
 
 try:
-	with open ("/home/vv/last_state.json", "w") as file_save:
+	with open ("/home/user/last_state.json", "w") as file_save:
 		json.dump(state, file_save)
 except FileNotFoundError:
-	os.system("touch /home/vv/last_state.json")
-	with open ("/home/vv/last_state.json", "w") as file_save:
+	os.system("touch /home/user/last_state.json")
+	with open ("/home/user/last_state.json", "w") as file_save:
 		json.dump(state, file_save)
