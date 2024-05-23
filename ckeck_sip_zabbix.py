@@ -16,7 +16,7 @@ Zabbix запускает этот скрипт как внешную прове
 '''
 #Нужно перед использованием отредактировать пути
 
-state = { 'find_sip_error' : None,
+state = { 'found_sip_error' : None,
           'sent_alert' : False}
 try:
 	with open("/home/user/last_state.json") as file_load:
@@ -28,12 +28,12 @@ last_data_log = os.popen("tail -n 5 /home/user/sip.log")
 
 for line in last_data_log:
 	if "Failed to send SIP message" in line:
-		state["find_sip_error"] = True		
+		state["found_sip_error"] = True		
 	if "System will reboot" in line:
-		state["find_sip_error"] = False
+		state["found_sip_error"] = False
 		state["sent_alert"] = False
 		
-if state.get("find_sip_error") == True:
+if state.get("found_sip_error") == True:
 	if state.get("sent_alert") == False:
 		print("ALERT")
 		state["sent_alert"] = True
